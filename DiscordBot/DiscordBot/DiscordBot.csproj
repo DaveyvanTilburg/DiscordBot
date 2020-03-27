@@ -6,6 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Libraries\Insults.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Libraries\Insults.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.1.1" />
     <PackageReference Include="DSharpPlus" Version="3.2.3" />
   </ItemGroup>
