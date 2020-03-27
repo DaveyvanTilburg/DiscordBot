@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace DiscordBot
+namespace DiscordBot.SteamNews
 {
     public class SteamNewsModel
     {

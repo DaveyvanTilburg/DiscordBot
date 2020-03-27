@@ -34,10 +34,10 @@ namespace DiscordBot.Commands
         {
             if (e.Message.Content.StartsWith($"-sb add {_libraryType} ", StringComparison.OrdinalIgnoreCase))
             {
-                string insultToAdd = e.Message.Content.Substring(23);
-                int insultKey = await _library.Add(insultToAdd);
+                string valueToAdd = e.Message.Content.Substring(9 + _libraryType.ToString().Length);
+                int newKey = await _library.Add(valueToAdd);
 
-                await e.Message.RespondAsync($"{_libraryType} added to library id:{insultKey}");
+                await e.Message.RespondAsync($"{_libraryType} added to library id:{newKey}");
             }
             else if (e.Message.Content.StartsWith($"-sb remove {_libraryType} ", StringComparison.OrdinalIgnoreCase))
             {

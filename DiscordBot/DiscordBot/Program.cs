@@ -40,7 +40,7 @@ namespace DiscordBot
 
             _discord = new DiscordClient(new DiscordConfiguration
             {
-                Token = "NjkyODM0MzIwMTY3MDc1OTIw.Xn5rqQ.EM1ICTKDG0QHqoH-iWXdV2b_vN0",
+                Token = "NjkyODM0MzIwMTY3MDc1OTIw.Xn5-9w.jGNKcs-DZUdyPOoxZ194XP0ifGc",
                 TokenType = TokenType.Bot
             });
 

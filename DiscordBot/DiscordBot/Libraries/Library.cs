@@ -30,7 +30,7 @@ namespace DiscordBot.Libraries
 
         public async Task<int> Add(string sentence)
         {
-            int newKey = _items.Keys.Max() + 1;
+            int newKey = _items.Keys.Count != 0 ? _items.Keys.Max() + 1 : 1;
             _items.TryAdd(newKey, sentence);
 
             await Save();
@@ -66,6 +66,11 @@ namespace DiscordBot.Libraries
             return "Something went wrong";
         }
 
+        public IEnumerable<string> GetValues()
+        {
+            return _items.Values;
+        }
+
         private async Task Save()
         {
             string serializedContent = JsonConvert.SerializeObject(_items);
@@ -75,11 +80,14 @@ namespace DiscordBot.Libraries
 
         private async Task Load()
         {
+            if (!File.Exists(_path))
+                return;
+
             string fileContents = await File.ReadAllTextAsync(_path);
 
             var items = JsonConvert.DeserializeObject<Dictionary<int, string>>(fileContents);
-            foreach (var item in items)
-                _items.TryAdd(item.Key, item.Value);
+            foreach ((int key, string value) in items)
+                _items.TryAdd(key, value);
         }
     }
 }

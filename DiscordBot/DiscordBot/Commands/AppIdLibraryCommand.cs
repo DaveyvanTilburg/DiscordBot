@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DiscordBot.Libraries;
+using DiscordBot.SteamNews;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
 
@@ -7,6 +9,8 @@ namespace DiscordBot.Commands
 {
     public class AppIdLibraryCommand : LibraryCommandBase
     {
+        private SteamNewsClient _steamNewsClient;
+
         private  AppIdLibraryCommand(Library library, LibraryType libraryType, DiscordClient discordClient) : base(library, libraryType, discordClient)
         {
         }
@@ -16,17 +20,16 @@ namespace DiscordBot.Commands
             var insults = await Library.Create(LibraryType.AppId);
 
             var result = new AppIdLibraryCommand(insults, LibraryType.AppId, discordClient);
+            result._steamNewsClient = await SteamNewsClient.Create();
             return result;
         }
 
         protected override async Task Run(MessageCreateEventArgs e)
         {
-            string appId = e.Message.Content.Substring(9);
+            IEnumerable<string> urls = await _steamNewsClient.GetNews(_library.GetValues());
 
-            var client = new SteamNewsClient();
-            string url = await client.GetNews(appId);
-
-            await e.Message.RespondAsync(url);
+            foreach(string url in urls)
+                await e.Message.RespondAsync(url);
         }
     }
 }
