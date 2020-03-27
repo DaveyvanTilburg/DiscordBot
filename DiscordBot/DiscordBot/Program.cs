@@ -26,7 +26,7 @@ namespace DiscordBot
         private static DiscordChannel _jibberJabber;
 
         private static CommandList _commandList;
-        private static RunInsultNow _insultCommand;
+        private static InsultLibraryCommand _insultCommand;
 
         private static async Task MainAsync(string[] args)
         {
@@ -40,7 +40,7 @@ namespace DiscordBot
 
             _discord = new DiscordClient(new DiscordConfiguration
             {
-                Token = "NjkyODM0MzIwMTY3MDc1OTIw.Xn5fBA.iC19Wnz8Lk-DOcPN4JANG3XRW6k",
+                Token = "NjkyODM0MzIwMTY3MDc1OTIw.Xn5rqQ.EM1ICTKDG0QHqoH-iWXdV2b_vN0",
                 TokenType = TokenType.Bot
             });
 
@@ -48,17 +48,19 @@ namespace DiscordBot
 
             await _discord.ConnectAsync();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-
+             
+            //Actual
             _damageInc = await _discord.GetGuildAsync(315087365502926848);
             _jibberJabber = await _discord.GetChannelAsync(630368958498734099);
 
+            //Mine
             //_damageInc = await _discord.GetGuildAsync(360705458966888448);
             //_jibberJabber = await _discord.GetChannelAsync(360705460053082124);
 
             _pinnedMessage = await _jibberJabber.GetMessageAsync(PinnedMessageId);
 
-            _commandList = await CommandList.Create(_discord, _damageInc);
-            _insultCommand = (RunInsultNow)_commandList.GetBotCommand(typeof(RunInsultNow));
+            _commandList = await CommandList.Create(_discord);
+            _insultCommand = (InsultLibraryCommand)_commandList.GetBotCommand(typeof(InsultLibraryCommand));
 
             _timer.Enabled = true;
             _insultTimer.Enabled = true;

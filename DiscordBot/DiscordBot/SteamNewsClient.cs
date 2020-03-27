@@ -8,9 +8,9 @@ namespace DiscordBot
 {
     public class SteamNewsClient
     {
-        public async Task<string> GetNews()
+        public async Task<string> GetNews(string appId)
         {
-            var request = WebRequest.CreateHttp("http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=548430&count=1&maxlength=300&format=json");
+            var request = WebRequest.CreateHttp($"http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid={appId}&count=1&maxlength=300&format=json");
             request.AllowAutoRedirect = true;
             WebResponse webResponse = await request.GetResponseAsync();
 

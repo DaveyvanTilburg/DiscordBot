@@ -18,7 +18,7 @@ namespace DiscordBot.Libraries
 
         private readonly string _path;
         private readonly ConcurrentDictionary<int, string> _items = new ConcurrentDictionary<int, string>();
-        private readonly Random _random = new Random(456);
+        private readonly Random _random = new Random();
 
         public static async Task<Library> Create(LibraryType libraryType)
         {
@@ -80,11 +80,6 @@ namespace DiscordBot.Libraries
             var items = JsonConvert.DeserializeObject<Dictionary<int, string>>(fileContents);
             foreach (var item in items)
                 _items.TryAdd(item.Key, item.Value);
-        }
-
-        public enum LibraryType
-        {
-            Insults = 0
         }
     }
 }

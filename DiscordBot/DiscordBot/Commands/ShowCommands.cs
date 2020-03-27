@@ -29,8 +29,9 @@ namespace DiscordBot.Commands
 
             foreach (BotCommand command in _commands)
             {
-                (string title, string content) = command.GetCommandInfo();
-                embed.AddField(title, content);
+                foreach((string title, string content) in command.GetCommandInfo())
+                    embed.AddField(title, content);
+                
             }
 
             embed.Build();
@@ -38,9 +39,9 @@ namespace DiscordBot.Commands
             await e.Message.RespondAsync(embed: embed);
         }
         
-        (string title, string content) BotCommand.GetCommandInfo()
+        IEnumerable<(string title, string content)> BotCommand.GetCommandInfo()
         {
-            return ("Get this help window", "-sb");
+            yield return ("Get this help window", "-sb");
         }
     }
 }

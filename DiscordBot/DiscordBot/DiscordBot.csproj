@@ -6,11 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Libraries\Insults.json" />
+    <None Remove="Libraries\AppId.json" />
+    <None Remove="Libraries\Insult.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Libraries\Insults.json">
+    <Content Include="Libraries\AppId.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Libraries\Insult.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

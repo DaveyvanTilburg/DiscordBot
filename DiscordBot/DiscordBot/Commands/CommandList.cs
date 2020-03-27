@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DiscordBot.Libraries;
 using DSharpPlus;
-using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 
 namespace DiscordBot.Commands
@@ -13,24 +11,19 @@ namespace DiscordBot.Commands
     {
         private readonly List<BotCommand> _botCommands;
 
-        private CommandList(DiscordClient discord, Library insults, DiscordGuild targetGuild)
+        private CommandList(params BotCommand[] botCommands)
         {
-            _botCommands = new List<BotCommand>
-            {
-                new AddInsult(insults),
-                new RemoveInsult(insults),
-                new RunInsultNow(insults, targetGuild),
-                new ShowAllInsults(discord, insults)
-            };
+            _botCommands = new List<BotCommand>(botCommands);
 
             _botCommands.Add(new ShowCommands(_botCommands));
         }
 
-        public static async Task<CommandList> Create(DiscordClient discord, DiscordGuild targetGuild)
+        public static async Task<CommandList> Create(DiscordClient discord)
         {
-            var insults = await Library.Create(Library.LibraryType.Insults);
+            BotCommand insultCommand = await InsultLibraryCommand.Create(discord);
+            BotCommand appIdCommand = await AppIdLibraryCommand.Create(discord);
 
-            var result = new CommandList(discord, insults, targetGuild);
+            var result = new CommandList(insultCommand, appIdCommand);
             return result;
         }
 

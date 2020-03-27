@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DSharpPlus.EventArgs;
 
 namespace DiscordBot.Commands
@@ -7,6 +8,6 @@ namespace DiscordBot.Commands
     {
         bool Is(MessageCreateEventArgs e);
         Task Run(MessageCreateEventArgs e);
-        (string title, string content) GetCommandInfo();
+        IEnumerable<(string title, string content)> GetCommandInfo();
     }
 }
