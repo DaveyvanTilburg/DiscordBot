@@ -12,8 +12,6 @@ namespace DiscordBot
     {
         private static DiscordClient _discord;
 
-        private static Library _insults;
-
         static void Main(string[] args)
         {
             MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
@@ -40,8 +38,6 @@ namespace DiscordBot
             _insultTimer.Interval = 21600000;
             _insultTimer.Elapsed += OnInsultTimedEvent;
             _insultTimer.AutoReset = true;
-
-            _insults = await Library.Create(Library.LibraryType.Insults);
 
             _discord = new DiscordClient(new DiscordConfiguration
             {
