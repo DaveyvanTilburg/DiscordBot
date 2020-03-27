@@ -4,7 +4,6 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using System.Timers;
 using DiscordBot.Commands;
-using DiscordBot.Libraries;
 
 namespace DiscordBot
 {
@@ -41,7 +40,7 @@ namespace DiscordBot
 
             _discord = new DiscordClient(new DiscordConfiguration
             {
-                Token = "NjkyODM0MzIwMTY3MDc1OTIw.Xn00UQ.362UcWVMQMjF0jm3Xpp2WqA1AhA",
+                Token = "NjkyODM0MzIwMTY3MDc1OTIw.Xn5fBA.iC19Wnz8Lk-DOcPN4JANG3XRW6k",
                 TokenType = TokenType.Bot
             });
 
