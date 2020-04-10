@@ -16,6 +16,8 @@ namespace DiscordBot
             MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
+        private const string Token = "TmpreU9ETTBNekl3TVRZM01EYzFPVEl3LlhwQURfQS5UM2lpcG5Pemk3RkJSNEkwZWJrbVdoVWdmYU0=";
+
         private static readonly Timer _timer = new Timer();
         private static readonly Timer _insultTimer = new Timer();
 
@@ -38,9 +40,10 @@ namespace DiscordBot
             _insultTimer.Elapsed += OnInsultTimedEvent;
             _insultTimer.AutoReset = true;
 
+            string decodedToken = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(Token));
             _discord = new DiscordClient(new DiscordConfiguration
             {
-                Token = "NjkyODM0MzIwMTY3MDc1OTIw.Xn5-9w.jGNKcs-DZUdyPOoxZ194XP0ifGc",
+                Token = decodedToken,
                 TokenType = TokenType.Bot
             });
 

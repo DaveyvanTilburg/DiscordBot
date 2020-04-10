@@ -15,6 +15,7 @@ namespace DiscordBot.Commands
         {
             _botCommands = new List<BotCommand>(botCommands);
 
+            _botCommands.Add(new ShowCommonSteamApps());
             _botCommands.Add(new ShowCommands(_botCommands));
         }
 
