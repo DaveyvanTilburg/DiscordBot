@@ -86,9 +86,9 @@ namespace DiscordBot
             var amsterdamTimezone = DateTimeZoneProviders.Tzdb["Europe/Amsterdam"];
             var chicago = DateTimeZoneProviders.Tzdb["America/Chicago"];
 
-            string nlTime = $"NL: {currentTime.InZone(amsterdamTimezone): HH:mm}";
-            string ukTime = $"UTC: {currentTime.InUtc():HH:mm}";
-            string usTime = $"CST: {currentTime.InZone(chicago): HH:mm}";
+            string nlTime = $"Amsterdam: {currentTime.InZone(amsterdamTimezone): HH:mm}";
+            string ukTime = $"London: {currentTime.InUtc():HH:mm}";
+            string usTime = $"Chicago: {currentTime.InZone(chicago): HH:mm}";
 
             string message = $"{nlTime}\r\n{ukTime}\r\n{usTime}";
             _pinnedMessage.ModifyAsync(message).GetAwaiter().GetResult();
