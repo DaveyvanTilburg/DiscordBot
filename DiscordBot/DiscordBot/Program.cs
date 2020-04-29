@@ -81,9 +81,15 @@ namespace DiscordBot
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            string nlTime = $"NL: {DateTime.UtcNow.AddHours(1):HH:mm}";
+            TimeZoneInfo cstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"); 
+            DateTime cst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cstTimeZone);
+
+            TimeZoneInfo amsterdamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W.Europe Standard Time"); 
+            DateTime amsterdamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, amsterdamTimeZone);
+
+            string nlTime = $"NL: {amsterdamTime:HH:mm}";
             string ukTime = $"UTC: {DateTime.UtcNow:HH:mm}";
-            string usTime = $"CST: {DateTime.UtcNow.AddHours(-6):HH:mm}";
+            string usTime = $"CST: {cst:HH:mm}";
 
             _pinnedMessage.ModifyAsync($"{nlTime}\r\n{ukTime}\r\n{usTime}").GetAwaiter().GetResult();
         }
