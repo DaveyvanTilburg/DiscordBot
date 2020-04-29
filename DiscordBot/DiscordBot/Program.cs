@@ -4,6 +4,7 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using System.Timers;
 using DiscordBot.Commands;
+using NodaTime;
 
 namespace DiscordBot
 {
@@ -81,17 +82,16 @@ namespace DiscordBot
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            TimeZoneInfo cstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time"); 
-            DateTime cst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, cstTimeZone);
+            var currentTime = SystemClock.Instance.GetCurrentInstant();
+            var amsterdamTimezone = DateTimeZoneProviders.Tzdb["Europe/Amsterdam"];
+            var chicago = DateTimeZoneProviders.Tzdb["America/Chicago"];
 
-            TimeZoneInfo amsterdamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W.Europe Standard Time"); 
-            DateTime amsterdamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, amsterdamTimeZone);
+            string nlTime = $"NL: {currentTime.InZone(amsterdamTimezone): HH:mm}";
+            string ukTime = $"UTC: {currentTime.InUtc():HH:mm}";
+            string usTime = $"CST: {currentTime.InZone(chicago): HH:mm}";
 
-            string nlTime = $"NL: {amsterdamTime:HH:mm}";
-            string ukTime = $"UTC: {DateTime.UtcNow:HH:mm}";
-            string usTime = $"CST: {cst:HH:mm}";
-
-            _pinnedMessage.ModifyAsync($"{nlTime}\r\n{ukTime}\r\n{usTime}").GetAwaiter().GetResult();
+            string message = $"{nlTime}\r\n{ukTime}\r\n{usTime}";
+            _pinnedMessage.ModifyAsync(message).GetAwaiter().GetResult();
         }
 
         private static void OnInsultTimedEvent(object source, ElapsedEventArgs e)
