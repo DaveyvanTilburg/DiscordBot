@@ -1,0 +1,29 @@
+Create image:
+docker build -t discordbot-image -f Dockerfile .
+
+See images
+docker images
+
+Export image
+docker save -o .\discordbot-image.tar discordbot-image
+
+Load image
+docker load -i discordbot-image.tar
+
+Create container
+docker create --name discordbot-container discordbot-image
+
+Start container
+docker start discordbot-container
+
+List all (and not running -a) containers
+docker ps -a
+
+Stop container
+docker stop discordbot-container
+
+Remove container
+docker rm discordbot-container
+
+Remove image
+docker rmi discordbot-image
