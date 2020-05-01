@@ -11,7 +11,7 @@ Load image
 docker load -i discordbot-image.tar
 
 Create container
-docker create --name discordbot-container discordbot-image
+docker create --name discordbot-container discordbot-image -v discordbot-drive:/App
 
 Start container
 docker start discordbot-container
@@ -27,3 +27,12 @@ docker rm discordbot-container
 
 Remove image
 docker rmi discordbot-image
+
+Create a volume
+docker volume create discordbot-drive
+
+List volumes
+docker volume ls
+
+Remove volume
+docker volume rm discordbot-drive
