@@ -26,7 +26,7 @@ namespace DiscordBot.Commands
             return 
                 e.Message.Content.StartsWith($"-sb add {_libraryType} ", StringComparison.OrdinalIgnoreCase) ||
                 e.Message.Content.StartsWith($"-sb remove {_libraryType} ", StringComparison.OrdinalIgnoreCase) ||
-                e.Message.Content.StartsWith($"-sb {_libraryType}", StringComparison.OrdinalIgnoreCase) ||
+                e.Message.Content.StartsWith($"-sb run {_libraryType}", StringComparison.OrdinalIgnoreCase) ||
                 e.Message.Content.StartsWith($"-sb show all {_libraryType}s", StringComparison.OrdinalIgnoreCase);
         }
 

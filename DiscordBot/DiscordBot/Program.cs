@@ -11,6 +11,7 @@ namespace DiscordBot
     class Program
     {
         private static DiscordClient _discord;
+        private static ulong PinnedMessageId = 692849775690645555;
 
         static void Main(string[] args)
         {
@@ -19,27 +20,17 @@ namespace DiscordBot
 
         private const string Token = "TmpreU9ETTBNekl3TVRZM01EYzFPVEl3LlhwQURfQS5UM2lpcG5Pemk3RkJSNEkwZWJrbVdoVWdmYU0=";
 
-        private static readonly Timer _timer = new Timer();
+        
         private static readonly Timer _insultTimer = new Timer();
-
-        private static ulong PinnedMessageId = 692849775690645555;
-        private static DiscordMessage _pinnedMessage;
 
         private static DiscordGuild _damageInc;
         private static DiscordChannel _jibberJabber;
 
         private static CommandList _commandList;
-        private static InsultLibraryCommand _insultCommand;
 
         private static async Task MainAsync(string[] args)
         {
-            _timer.Interval = 30000;
-            _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = true;
-
-            _insultTimer.Interval = 21600000;
-            _insultTimer.Elapsed += OnInsultTimedEvent;
-            _insultTimer.AutoReset = true;
+            Console.WriteLine("Starting...");
 
             string decodedToken = System.Text.Encoding.ASCII.GetString(Convert.FromBase64String(Token));
             _discord = new DiscordClient(new DiscordConfiguration
@@ -48,55 +39,37 @@ namespace DiscordBot
                 TokenType = TokenType.Bot
             });
 
-            _discord.MessageCreated += async e => { await _commandList.Run(e); };
-
             await _discord.ConnectAsync();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
-             
+
             //Actual
+            Console.WriteLine("Getting Guild...");
             _damageInc = await _discord.GetGuildAsync(315087365502926848);
+
+            Console.WriteLine("Getting Channel...");
             _jibberJabber = await _discord.GetChannelAsync(630368958498734099);
+
+            Console.WriteLine("Getting pinned message...");
+            var pinnedMessage = await _jibberJabber.GetMessageAsync(PinnedMessageId);
+
+            var timedLocalTimeUpdate = new TimedLocalTimeUpdate(30000, pinnedMessage);
+            Console.WriteLine("Starting local time updater!");
+            timedLocalTimeUpdate.Start();
 
             //Mine
             //_damageInc = await _discord.GetGuildAsync(360705458966888448);
             //_jibberJabber = await _discord.GetChannelAsync(360705460053082124);
 
-            _pinnedMessage = await _jibberJabber.GetMessageAsync(PinnedMessageId);
-
             _commandList = await CommandList.Create(_discord);
-            _insultCommand = (InsultLibraryCommand)_commandList.GetBotCommand(typeof(InsultLibraryCommand));
 
-            _timer.Enabled = true;
+            Console.WriteLine("Listening to new messages!");
+            _discord.MessageCreated += async e => { await _commandList.Run(e); };
+
             _insultTimer.Enabled = true;
 
-            while (true)
-            {
-                string command = Console.ReadLine() ?? string.Empty;
-
-                if (command.Equals("exit"))
-                    break;
-
-                await _jibberJabber.SendMessageAsync(command);
-            }
-        }
-
-        private static void OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            var currentTime = SystemClock.Instance.GetCurrentInstant();
-            var amsterdamTimezone = DateTimeZoneProviders.Tzdb["Europe/Amsterdam"];
-            var chicago = DateTimeZoneProviders.Tzdb["America/Chicago"];
-
-            string nlTime = $"Amsterdam: {currentTime.InZone(amsterdamTimezone): HH:mm}";
-            string ukTime = $"London: {currentTime.InUtc():HH:mm}";
-            string usTime = $"Chicago: {currentTime.InZone(chicago): HH:mm}";
-
-            string message = $"{nlTime}\r\n{ukTime}\r\n{usTime}";
-            _pinnedMessage.ModifyAsync(message).GetAwaiter().GetResult();
-        }
-
-        private static void OnInsultTimedEvent(object source, ElapsedEventArgs e)
-        {
-            _insultCommand.Insult(_damageInc, _jibberJabber).GetAwaiter().GetResult();
+            Console.WriteLine("Setup complete!");
+            //Make it run unblocked indefinitely
+            await Task.Delay(-1);
         }
 
         static void OnProcessExit(object sender, EventArgs e)

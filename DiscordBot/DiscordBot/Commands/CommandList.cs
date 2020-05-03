@@ -21,10 +21,9 @@ namespace DiscordBot.Commands
 
         public static async Task<CommandList> Create(DiscordClient discord)
         {
-            BotCommand insultCommand = await InsultLibraryCommand.Create(discord);
             BotCommand appIdCommand = await AppIdLibraryCommand.Create(discord);
 
-            var result = new CommandList(insultCommand, appIdCommand);
+            var result = new CommandList(appIdCommand);
             return result;
         }
 

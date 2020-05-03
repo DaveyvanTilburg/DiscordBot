@@ -2,7 +2,6 @@
 {
     public enum LibraryType
     {
-        Insult = 0,
-        AppId = 1
+        SteamAppNews = 0,
     }
 }

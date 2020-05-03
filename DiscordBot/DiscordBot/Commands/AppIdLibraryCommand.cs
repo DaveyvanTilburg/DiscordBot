@@ -17,9 +17,9 @@ namespace DiscordBot.Commands
 
         public static async Task<AppIdLibraryCommand> Create(DiscordClient discordClient)
         {
-            var insults = await Library.Create(LibraryType.AppId);
+            var insults = await Library.Create(LibraryType.SteamAppNews);
 
-            var result = new AppIdLibraryCommand(insults, LibraryType.AppId, discordClient);
+            var result = new AppIdLibraryCommand(insults, LibraryType.SteamAppNews, discordClient);
             result._steamNewsClient = await SteamNewsClient.Create();
             return result;
         }
