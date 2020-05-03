@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DiscordBot.Libraries;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
 
@@ -19,9 +20,9 @@ namespace DiscordBot.Commands
             _botCommands.Add(new ShowCommands(_botCommands));
         }
 
-        public static async Task<CommandList> Create(DiscordClient discord)
+        public static async Task<CommandList> Create(DiscordClient discordClient, Library steamAppNewsLibrary)
         {
-            BotCommand appIdCommand = await AppIdLibraryCommand.Create(discord);
+            BotCommand appIdCommand = new LibraryCommandStructure(steamAppNewsLibrary, LibraryType.SteamAppNews, discordClient, await SteamAppNewsCommand.Create(steamAppNewsLibrary, LibraryType.SteamAppNews));
 
             var result = new CommandList(appIdCommand);
             return result;

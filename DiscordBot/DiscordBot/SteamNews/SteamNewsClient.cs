@@ -12,9 +12,7 @@ namespace DiscordBot.SteamNews
     {
         private SteamNewsDates _steamNewsDates;
 
-        private SteamNewsClient()
-        {
-        }
+        private SteamNewsClient() { }
 
         public static async Task<SteamNewsClient> Create()
         {
@@ -26,7 +24,7 @@ namespace DiscordBot.SteamNews
             return result;
         }
 
-        public async Task<IEnumerable<string>> GetNews(IEnumerable<string> appIds)
+        public async Task<IEnumerable<string>> GetNews(IEnumerable<string> appIds, bool verbose)
         {
             var result = new List<string>();
 
@@ -49,8 +47,13 @@ namespace DiscordBot.SteamNews
                 if (newsItem == null)
                     continue;
 
-                if (!_steamNewsDates.Check(appId, newsItem.Date)) 
+                if (!_steamNewsDates.Check(appId, newsItem.Date))
+                {
+                    if (verbose)
+                        result.Add($"Nothing new for: {appId}");
+                    
                     continue;
+                }
 
                 result.Add(steamNews.AppNews.NewsItems[0].Url);
                 await _steamNewsDates.AddOrUpdate(appId, newsItem.Date);

@@ -45,6 +45,9 @@ namespace DiscordBot.SteamNews
         {
             string serializedContent = JsonConvert.SerializeObject(_steamNewsDates);
 
+            FileInfo _fileInfo = new FileInfo(_path);
+            _fileInfo.Directory.Create();
+
             await File.WriteAllTextAsync(_path, serializedContent);
         }
 

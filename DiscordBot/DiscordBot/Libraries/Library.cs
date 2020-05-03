@@ -13,9 +13,11 @@ namespace DiscordBot.Libraries
     {
         private Library(LibraryType libraryType)
         {
-            _path = $"./Libraries/{libraryType}.json";
+            _libraryType = libraryType;
+            _path = $"./Libraries//{libraryType}.json";
         }
 
+        private LibraryType _libraryType;
         private readonly string _path;
         private readonly ConcurrentDictionary<int, string> _items = new ConcurrentDictionary<int, string>();
         private readonly Random _random = new Random();
@@ -50,6 +52,9 @@ namespace DiscordBot.Libraries
 
         public string GetSummary()
         {
+            if (_items.Count == 0)
+                return $"Library for {_libraryType} is empty";
+
             var result = new StringBuilder();
 
             foreach (KeyValuePair<int, string> keyValuePair in _items)
@@ -74,6 +79,9 @@ namespace DiscordBot.Libraries
         private async Task Save()
         {
             string serializedContent = JsonConvert.SerializeObject(_items);
+
+            FileInfo _fileInfo = new FileInfo(_path);
+            _fileInfo.Directory.Create();
 
             await File.WriteAllTextAsync(_path, serializedContent);
         }
