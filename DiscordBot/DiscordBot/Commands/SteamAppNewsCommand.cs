@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DiscordBot.Commands.LibraryCommands;
 using DiscordBot.Libraries;
@@ -25,10 +26,13 @@ namespace DiscordBot.Commands
 
         public override async Task Run(MessageCreateEventArgs e)
         {
+            Console.WriteLine($"{DateTime.UtcNow:s} | SteamAppNews: Getting updates...");
             IEnumerable<string> urls = await _steamNewsClient.GetNews(_library.GetValues(), true);
 
             foreach(string url in urls)
                 await e.Message.RespondAsync(url);
+
+            Console.WriteLine($"{DateTime.UtcNow:s} | SteamAppNews: Finished!");
         }
     }
 }

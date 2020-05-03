@@ -13,6 +13,9 @@ docker load -i discordbot-image.tar
 Create container
 docker create --name discordbot-container discordbot-image
 
+Create container with volume
+docker create --name discordbot-container --mount source=discordbot-volume,target=/app discordbot-image
+
 Start container
 docker start discordbot-container
 
