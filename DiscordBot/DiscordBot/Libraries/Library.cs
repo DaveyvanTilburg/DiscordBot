@@ -14,7 +14,7 @@ namespace DiscordBot.Libraries
         private Library(LibraryType libraryType)
         {
             _libraryType = libraryType;
-            _path = $"./Libraries//{libraryType}.json";
+            _path = $"../storage/libraries/{libraryType.ToString().ToLower()}.json";
         }
 
         private LibraryType _libraryType;
@@ -80,8 +80,9 @@ namespace DiscordBot.Libraries
         {
             string serializedContent = JsonConvert.SerializeObject(_items);
 
-            FileInfo _fileInfo = new FileInfo(_path);
-            _fileInfo.Directory.Create();
+            FileInfo fileInfo = new FileInfo(_path);
+            Console.WriteLine($"{DateTime.Now:s}| Saving to: {fileInfo.Directory.FullName}");
+            fileInfo.Directory.Create();
 
             await File.WriteAllTextAsync(_path, serializedContent);
         }
