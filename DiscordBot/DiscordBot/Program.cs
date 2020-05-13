@@ -44,7 +44,7 @@ namespace DiscordBot
             timedLocalTimeUpdate.Start();
 
             var steamAppNewsLibrary = await Library.Create(LibraryType.SteamAppNews);
-            var timedSteamAppNewsUpdate = await TimedSteamAppNewsUpdate.Create(60000, steamAppNewsLibrary); //3600000 = 1 hour
+            var timedSteamAppNewsUpdate = await TimedSteamAppNewsUpdate.Create(3600000, steamAppNewsLibrary); //3600000 = 1 hour
             Console.WriteLine("Starting steam app news updater!");
             timedSteamAppNewsUpdate.Start();
 

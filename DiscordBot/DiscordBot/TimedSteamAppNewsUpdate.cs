@@ -1,5 +1,6 @@
 ﻿using DiscordBot.Libraries;
 using DiscordBot.SteamNews;
+using System;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -25,7 +26,11 @@ namespace DiscordBot
 
         protected override ElapsedEventHandler GetElapsedEventHandler()
         {
-            return (async(object sender, ElapsedEventArgs e) => await _steamNewsClient.GetNews(_steamAppsNewsLibrary.GetValues(), false));
+            return async(object sender, ElapsedEventArgs e) => 
+            {
+                Console.WriteLine($"{DateTime.Now:s}| Fetching steam news");
+                await _steamNewsClient.GetNews(_steamAppsNewsLibrary.GetValues(), false);
+            };
         }
     }
 }
